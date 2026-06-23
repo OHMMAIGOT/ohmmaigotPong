@@ -16,6 +16,7 @@ let wHeld = false;
 let sHeld = false;
 let upHeld = false;
 let downHeld = false;
+let spaceHeld = false;
 let playerHeld = false;
 let opponentHeld = false;
 let throwUp = false;

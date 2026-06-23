@@ -10,6 +10,8 @@ function keyDown(event) {
         upHeld = true;
     } else if (event.key == 'ArrowDown') {
         downHeld = true;
+    } else if (event.key == ' ') {
+        spaceHeld = true;
     };
 };
 
@@ -18,9 +20,24 @@ function keyUp(event) {
     if (event.key == ' ' && playerHeld) {
         playerHeld = false;
         ballSpeedx = 10;
-        ballSpeedy = 10
         ballSpeedx *= -1;
-    }
+        if (wHeld) {
+            ballSpeedy = 10
+        } else if (sHeld) {
+            ballSpeedy = -10
+        };
+    };
+
+    if (event.key == ' ' && opponentHeld) {
+        opponentHeld = false;
+        ballSpeedx = 10;
+        ballSpeedx *= -1;
+        if (upHeld) {
+            ballSpeedy = 10
+        } else if (downHeld) {
+            ballSpeedy = -10
+        };
+    };
 
     if (event.key.toLowerCase() == 'w') {   
         wHeld = false;
@@ -30,6 +47,8 @@ function keyUp(event) {
         upHeld = false;
     } else if (event.key == 'ArrowDown') {
         downHeld = false;
+    } else if (event.key == ' ') {
+        spaceHeld = false;
     };
 };
 
@@ -58,6 +77,8 @@ function allAnimation() {
     //ballKeep
     if (ballx <= 19 && bally >= playery && bally <= playeryUnder) {
         playerHeld = true;
+    } else if (ballx >= 1501 && bally >= opponenty && bally <= opponentyUnder) {
+        opponentHeld = true;
     };
 
     if (playerHeld) {
@@ -65,6 +86,13 @@ function allAnimation() {
         ballSpeedy = 0;
         ballx = 35;
         bally = playery + 95;
+    };
+
+    if (opponentHeld) {
+        ballSpeedx = 0;
+        ballSpeedy = 0;
+        ballx = 1485;
+        bally = opponenty + 95;
     };
 
     brush.fillStyle = 'white';
@@ -156,6 +184,19 @@ function allAnimation() {
             ballSpeedx *= -1;
         };
     };
+
+    
+    if (ballx <= 30 || ballx >= 1490) {
+        if (ballx <= 30 && bally >= playery && bally <= playeryUnder && wHeld) {
+            ballSpeedy += 1;
+        } else if (ballx <= 30 && bally >= playery && bally <= playeryUnder && sHeld) {
+            ballSpeedy -= 1;
+        } else if (ballx >= 1490 && bally >= opponenty && bally <= opponentyUnder && upHeld) {
+            ballSpeedy += 1;
+        } else if (ballx >= 1490 && bally >= opponenty && bally <= opponentyUnder && downHeld) {
+            ballSpeedy -= 1;
+        };
+    };
     
     //score
     if (ballx >= 1520) {
@@ -182,7 +223,3 @@ function allAnimation() {
 
     requestAnimationFrame(allAnimation);
 };
-
-document.addEventListener('keydown', keyDown);
-document.addEventListener('keyup', keyUp);
-allAnimation();
